@@ -8,8 +8,8 @@ RUN apt-get update
 
 # Prerequisites
 RUN apt-get install -y build-essential clang bison flex libreadline-dev \
-                     gawk tcl-dev libffi-dev git mercurial graphviz   \
-                     xdot pkg-config python python3 python3-venv libftdi-dev \
+                     gawk tcl-dev libffi-dev git mercurial graphviz xdot  \
+                     pkg-config python python3 python3-venv python3-pip libftdi-dev \
                      qt5-default python3-dev libboost-all-dev cmake libeigen3-dev
 
 # IceStorm Tools
@@ -37,16 +37,9 @@ RUN git clone https://github.com/cseed/arachne-pnr.git arachne-pnr && \
     make -j$(nproc) && \
     make install
 
-# Python VEnvs for different build environments
-# https://tinyfpga.com/bx/guide.html
-RUN mkdir /pyenv && \
-    python3 -m venv /pyenv/tinyfpga-bx-stable && \
-    /pyenv/tinyfpga-bx-stable/bin/python3 -m pip install apio==0.4.0b5 tinyprog
-
-RUN python3 -m venv /pyenv/tinyfpga-bx-nextpnr && \
-    /pyenv/tinyfpga-bx-nextpnr/bin/python3 -m pip install wheel && \
-    /pyenv/tinyfpga-bx-nextpnr/bin/python3 -m pip install apio tinyprog fusesoc && \
-    /pyenv/tinyfpga-bx-nextpnr/bin/fusesoc init -y
+RUN python3 -m pip install wheel && \
+    python3 -m pip install apio tinyprog fusesoc && \
+    fusesoc init -y
 
 # Working directory
 RUN mkdir "/workspace"
