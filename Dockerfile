@@ -4,10 +4,9 @@ LABEL maintainer="Josh Lloyd <j.nevercast@gmail.com>"
 ENV TERM linux
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update
-
 # Prerequisites
-RUN apt-get install -y build-essential clang bison flex libreadline-dev \
+RUN apt-get update -y && \
+    apt-get install -y build-essential clang bison flex libreadline-dev \
                      gawk tcl-dev libffi-dev git mercurial graphviz xdot  \
                      pkg-config python python3 python3-venv python3-pip libftdi-dev \
                      qt5-default python3-dev libboost-all-dev cmake libeigen3-dev
