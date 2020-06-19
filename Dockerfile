@@ -1,5 +1,5 @@
 FROM ubuntu:latest
-MAINTAINER Josh Lloyd <j.nevercast@gmail.com>
+LABEL maintainer="Josh Lloyd <j.nevercast@gmail.com>"
 # Docker ENV
 ENV TERM linux
 ENV DEBIAN_FRONTEND noninteractive
