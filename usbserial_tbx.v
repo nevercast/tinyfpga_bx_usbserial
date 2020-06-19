@@ -23,13 +23,6 @@ module usbserial_tbx (
     // Use an icepll generated pll
     pll pll48( .clock_in(CLK), .clock_out(clk_48mhz), .locked( clk_locked ) );
 
-    // LED
-    reg [22:0] ledCounter;
-    always @(posedge clk_48mhz) begin
-        ledCounter <= ledCounter + 1;
-    end
-    assign LED = ledCounter[ 22 ];
-
     // Generate reset signal
     reg [5:0] reset_cnt = 0;
     wire reset = ~reset_cnt[5];
@@ -41,8 +34,18 @@ module usbserial_tbx (
     wire [7:0] uart_in_data;
     wire       uart_in_valid;
     wire       uart_in_ready;
-
+    
     // assign debug = { uart_in_valid, uart_in_ready, reset, clk_48mhz };
+
+    // LED
+    reg [22:0] ledCounter;
+    always @(posedge clk_48mhz) begin
+        if (uart_in_ready)
+            ledCounter <= 'Hffffff;
+        if (ledCounter > 0)
+            ledCounter <= ledCounter - 1;
+    end
+    assign LED = ledCounter[ 22 ];
 
     wire usb_p_tx;
     wire usb_n_tx;
